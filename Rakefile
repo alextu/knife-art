@@ -4,7 +4,7 @@ require "rdoc/task"
 
 GEM_NAME = "knife-art"
 
-spec = eval(File.read("knife-art.gemspec"))
+spec = eval(File.read("knife_art.gemspec"))
 
 Gem::PackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec

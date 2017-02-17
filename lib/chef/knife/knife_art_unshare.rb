@@ -39,6 +39,7 @@ class Chef
 
         begin
           url = "#{cookbooks_api_url}/api/v1/cookbooks/#{@cookbook_name}/#{@cookbook_version}"
+          auth_header = {:Authorization => 'Basic ' + Base64.encode64("#{auth_credentials[:login]}:#{auth_credentials[:password]}")}
           noauth_rest.delete(url, auth_header)
         rescue Net::HTTPServerException => e
           raise e unless (e.message =~ /Forbidden/ || e.message =~ /Unauthorized/)
@@ -55,9 +56,9 @@ class Chef
         "#{config[:supermarket_site]}/api/v1/cookbooks"
       end
 
-      def auth_header
-        @auth_header ||= begin
-          ::Knife::KnifeArt::KnifeArtUtils.auth_header_from(cookbooks_api_url)
+      def auth_credentials
+        @auth_credentials ||= begin
+          ::Knife::KnifeArt::KnifeArtUtils.credentials_from(cookbooks_api_url)
         end
       end
 

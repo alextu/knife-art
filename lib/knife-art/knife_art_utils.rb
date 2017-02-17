@@ -4,7 +4,7 @@ module Knife
   module KnifeArt
     class KnifeArtUtils
 
-      def self.auth_header_from(uri)
+      def self.credentials_from(uri)
         Chef::Log.debug("[KNIFE-ART] in util, got url: #{uri}")
         begin
         url = URI.parse(uri.gsub(%r{/+$}, ""))
@@ -12,7 +12,7 @@ module Knife
         if url.user and url.password
           user = URI.unescape(url.user)
           password = URI.unescape(url.password)
-          return {"Authorization" => "Basic " + Base64.encode64("#{user}:#{password}")}
+          return { :login => user, :password => password }
         end
         {}
         end
@@ -22,5 +22,6 @@ module Knife
       end
 
     end
+
   end
 end
